@@ -8,6 +8,7 @@
 RF24 radio(9, 10);
 
 #define CLEAR_BTN_PIN 5
+const int buzzer = 3; //Masher: buzzer to arduino pin 3
 
 byte buzzerIds[] = {1,2}; // list all your existing buzzers client ids (see buzzerId in NF24-BK-BUZZER.ino)
 
@@ -22,7 +23,8 @@ void setup() {
   radio.startListening();
 
   pinMode(CLEAR_BTN_PIN, INPUT_PULLUP);
-
+  pinMode(buzzer, OUTPUT); // Masher: Set buzzer - pin 3 as an output
+  
   Wire.begin();
 }
 
@@ -100,5 +102,18 @@ void sendSound(int team) {
   Wire.write(team);
   Wire.endTransmission();
   Serial.println("Send Sound CMD");
+  
+  //Masher: start of buzzer sound
+             tone(buzzer, 1000); // Send 1KHz sound signal...
+             delay(200);        // ...for 1 sec
+             tone (buzzer,2000);
+             //  noTone(buzzer);     // Stop sound...
+             delay(200);        // ...for 1sec
+             tone (buzzer,3000);
+             delay(200);
+             noTone (buzzer);
+             delay(1000);
+             // Masher: End of buzzer sound
+  
 }
 
